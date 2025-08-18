@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using MinimalApi.Dominio.Entidades;
 namespace Test
 {
@@ -12,7 +9,7 @@ namespace Test
         public void TestCriarVeiculo()
         {
             // Arrange & Act
-            Veiculo veiculo = new Veiculo
+            var veiculo = new Veiculo
             {
                 Id = 1,
                 Marca = "Honda",

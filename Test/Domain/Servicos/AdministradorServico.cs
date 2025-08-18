@@ -25,13 +25,20 @@ public class AdministradorServicoTest
         return new DbContexto(configuration);
     }
 
+    [TestInitialize]
+    public void Setup()
+    {
+        // Ensure database is created and clean before each test
+        var context = CriarContextoDeTeste();
+        context.Database.EnsureCreated();
+        context.Database.ExecuteSqlRaw("DELETE FROM administradores");
+    }
 
     [TestMethod]
     public void TestandoSalvarAdministrador()
     {
         // Arrange
         var context = CriarContextoDeTeste();
-        context.Database.ExecuteSqlRaw("TRUNCATE TABLE Administradores");
 
         var adm = new Administrador();
         adm.Email = "teste@teste.com";
@@ -52,7 +59,6 @@ public class AdministradorServicoTest
     {
         // Arrange
         var context = CriarContextoDeTeste();
-        context.Database.ExecuteSqlRaw("TRUNCATE TABLE Administradores");
 
         var adm = new Administrador();
         adm.Email = "teste@teste.com";
@@ -66,6 +72,8 @@ public class AdministradorServicoTest
         var admDoBanco = administradorServico.BuscaPorId(adm.Id);
 
         // Assert
-        Assert.AreEqual(1, admDoBanco?.Id);
+        Assert.IsNotNull(admDoBanco);
+        Assert.AreEqual(adm.Id, admDoBanco.Id);
+        Assert.AreEqual("teste@teste.com", admDoBanco.Email);
     }
 }
